@@ -60,9 +60,9 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:${{ steps.read_file.outputs.contents }}
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
+            ${{ secrets.DOCKER_USERNAME }}/docs:latest
+            ${{ secrets.DOCKER_USERNAME }}/docs:${{ steps.read_file.outputs.contents }}
+            ${{ secrets.DOCKER_USERNAME }}/docs:${{ steps.meta.outputs.SHORT_SHA }}
           cache-from: type=local,src=/tmp/.buildx-cache
     
       
