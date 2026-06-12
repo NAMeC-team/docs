@@ -46,6 +46,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # 8.5 Obtain the version to push and store it in a variable
+      - name: Read version file
+        id: read_file
+        uses: andstor/file-reader-action@v1.0.0
+        with:
+          path: "version"
       # 9. Build and push prod image
       - name: Build and push production image
         uses: docker/build-push-action@v7
@@ -56,7 +62,7 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:$(cat version)
+            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:${{ steps.read_file.outputs.contents }}
             ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKERHUB_DOCS_PROJECT_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
           cache-from: type=local,src=/tmp/.buildx-cache
     
