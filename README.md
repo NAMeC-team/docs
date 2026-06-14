@@ -1,4 +1,9 @@
 # NAMeC mdBook documentation
+Collection of 'mdbook's folders that contain the documentation of each division of the codebase of NAMeC
+
+## Development requirements
+- [mdbook](https://rust-lang.github.io/mdBook/guide/installation.html)
+
 ## Layout
 The docs are separated in one folder per division in the team (such as "software" or "embedded systems").
 For now, each folder is supposed to be a unique mdBook.
@@ -41,3 +46,6 @@ To edit a single book and see your results on every change, just navigate to the
 - Upload new Docker image : see above
 The second workflow can be ran manually. Unless you have some testing to do, do not trigger that workflow manually,
 the idea being that changing the version file helps us keep track of the past versions of the documentation.
+
+## mdbook syntax
+See [mdbook docs](https://rust-lang.github.io/mdBook/format/markdown.html)
