@@ -9,6 +9,9 @@ Motors return an error count, which represents the number of times the motor car
 ## SPI Watchdog
 A watchdog is in place inside the motor code, such that if the motor does not receive any SPI message after a fixed amount of time, the motor reboots entirely. This stems from the fact that F1 chips on the motor cards had a bug that blocked the SPI bus (or at least that was what I was told), so this measure has been put in place.
 
+This watchdog is a very good way of determining if the robot firmware crashed. When that happens, all motors will reboot continuously while a green led
+is blinking ontop of each motor card.
+
 ## Orders sent
 The motors are speed-controlled and obey to the commands they're told to perform by the robot card.
 Once we receive a speed order from the decision software, through the base station, we transform this robot-frame speed order into 4 separate target speeds to transmit to each motor. This is performed in the `compute_motor_speed()` function.
