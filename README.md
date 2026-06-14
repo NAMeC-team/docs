@@ -24,13 +24,17 @@ the documentation correctly ('corporate workflow' type of stuff).
 The server does not automatically pull the new image (yet), so you have to request a sysadmin to re-run the associated docker-compose on the server.
 
 Right now, the Dockerfile is a simple httpd server running with all books on their own path, and a style-less home page that lists all the books available, on port 80.
-You can test the Dockerfile locally with the following commands
+If you want to see the result, opening the `index.html` file won't work, it's supposed to be copied inside the Docker image for deployment. Sorry :c
+
+Instead, you can either serve the whole documentation locally with the following commands
 ```sh
 # you can omit the sudo if you have Docker rootless set up
 sudo docker build -t namec-team/docs:tmp .
 sudo docker run -p 8080:80 namec-team/docs:tmp
 ```
 and open http://localhost:8080 to see the result.
+
+To edit a single book and see your results on every change, just navigate to the book's root folder and run `mdbook serve`.
 
 ## CI pipelines
 - Docker build check : ran whenever content in the `books/` directory changes in a PR
