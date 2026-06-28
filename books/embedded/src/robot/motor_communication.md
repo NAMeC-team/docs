@@ -1,13 +1,21 @@
 # Motor communication
+
 ## Periodic transmission
-We start a periodic communication with each motor card on the SPI bus. Access to the SPI bus is mutex-protected and is automatically handled by the EventQueue. The mutex is important because physically, all motors are connected to the same SPI bus.
+We start a periodic communication with each motor card on the SPI bus. Access to the SPI bus is mutex-protected and is automatically handled by the EventQueue. The mutex is important because electronically, all motors are connected to the same SPI bus.
 
-The messages passed are `MainBoardToBrushless` and `BrushlessToMainboard`, stored in `brushless.proto` inside the `sensor-data-protocol` repository.
+Structure of the packet transmitted on the wire is composed of a Protobuf message, prefixed by a packet length and suffixed by a 32-bit CRC.
+The messages passed are `MainboardToBrushless` and `BrushlessToMainboard`, stored in `brushless.proto` inside the `sensor-data-protocol` repository, alongside a 32-bit CRC value next to the packet.
 
-Motors return an error count, which represents the number of times the motor card decoded the message sent from the mainboard and computed a CRC that did not match the passed CRC.
+![](assets/motor_message_packet.png)
+
+There are error counts available for display which represent the number of times the CRC check failed,
+either when the motor card receives a message (TX error), or when the robot receives the reply (RX error).
 
 ## SPI Watchdog
 A watchdog is in place inside the motor code, such that if the motor does not receive any SPI message after a fixed amount of time, the motor reboots entirely. This stems from the fact that F1 chips on the motor cards had a bug that blocked the SPI bus (or at least that was what I was told), so this measure has been put in place.
+
+This watchdog is a very good way of determining if the robot firmware crashed. When that happens, all motors will reboot continuously while a green led
+is blinking ontop of each motor card.
 
 ## Orders sent
 The motors are speed-controlled and obey to the commands they're told to perform by the robot card.
